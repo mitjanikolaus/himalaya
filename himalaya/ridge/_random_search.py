@@ -496,7 +496,7 @@ def solve_ridge_cv_svd(X, Y, alphas=1.0, fit_intercept=False,
             "faster. Use warn=False to silence this warning.", UserWarning)
 
     n_iter = backend.ones_like(X, shape=(1, 1))
-    fixed_params = dict(return_weights=True, progress_bar=False,
+    fixed_params = dict(return_weights=True, progress_bar=True,
                         concentration=None, jitter_alphas=False,
                         random_state=None, n_iter=n_iter, warn=False)
 
