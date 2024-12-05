@@ -2,6 +2,7 @@ import warnings
 import numbers
 
 import numpy as np
+from tqdm import tqdm
 
 from ..backend import get_backend
 from ..backend._utils import _dtype_to_str
@@ -203,7 +204,7 @@ def solve_group_ridge_random_search(
 
         scores = backend.zeros_like(gammas,
                                     shape=(n_splits, len(alphas), n_targets))
-        for jj, (train, test) in enumerate(cv.split(X_)):
+        for jj, (train, test) in tqdm(enumerate(cv.split(X_)), total=n_splits):
             train = backend.to_gpu(train, device=device)
             test = backend.to_gpu(test, device=device)
             Xtrain, Xtest = X_[train], X_[test]
@@ -496,7 +497,7 @@ def solve_ridge_cv_svd(X, Y, alphas=1.0, fit_intercept=False,
             "faster. Use warn=False to silence this warning.", UserWarning)
 
     n_iter = backend.ones_like(X, shape=(1, 1))
-    fixed_params = dict(return_weights=True, progress_bar=True,
+    fixed_params = dict(return_weights=True, progress_bar=False,
                         concentration=None, jitter_alphas=False,
                         random_state=None, n_iter=n_iter, warn=False)
 
